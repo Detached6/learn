@@ -2,9 +2,35 @@
 
 // READ: 数组向指针退化 <https://zh.cppreference.com/w/cpp/language/array#%E6%95%B0%E7%BB%84%E5%88%B0%E6%8C%87%E9%92%88%E7%9A%84%E9%80%80%E5%8C%96>
 bool is_fibonacci(int *ptr, int len, int stride) {
+    if (len < 3) {
+        return false;
+    }
     ASSERT(len >= 3, "`len` should be at least 3");
     // TODO: 编写代码判断从 ptr 开始，每 stride 个元素取 1 个元素，组成长度为 n 的数列是否满足
     // arr[i + 2] = arr[i] + arr[i + 1]
+    int i = 0, cnt = 0, sum = 1;
+    int a[len] = {0};
+    while (i < len * stride) {
+        if (cnt == 0 || sum == stride) {
+            a[cnt ++ ] = ptr[i];
+            if (cnt == len) {
+                break;
+            }
+            sum = 1;
+        }
+        else sum ++ ;
+        i ++ ;
+    }
+    
+    if (cnt != len) {
+        return false;
+    }
+
+    for (int i = 2; i < len; i ++ ) {
+        if (a[i] != a[i - 1] + a[i - 2]) {
+            return false;
+        }
+    }
     return true;
 }
 

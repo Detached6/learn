@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <cstring>  // 添加此行来引入 std::strcmp
 
 // READ: `std::unique_ptr` <https://zh.cppreference.com/w/cpp/memory/unique_ptr>
 
@@ -43,22 +44,27 @@ Unique forward(Unique ptr) {
 int main(int argc, char **argv) {
     std::vector<std::string> problems[3];
 
+    // 处理问题 1
     drop(forward(reset(nullptr)));
-    problems[0] = std::move(RECORDS);
+    problems[0] = RECORDS;
+    RECORDS.clear();  // 清空 RECORDS，以便下一步
 
+    // 处理问题 2
     forward(drop(reset(forward(forward(reset(nullptr))))));
-    problems[1] = std::move(RECORDS);
+    problems[1] = RECORDS;
+    RECORDS.clear();  // 清空 RECORDS，以便下一步
 
+    // 处理问题 3
     drop(drop(reset(drop(reset(reset(nullptr))))));
-    problems[2] = std::move(RECORDS);
+    problems[2] = RECORDS;
+    RECORDS.clear();  // 清空 RECORDS，以便下一步
 
     // ---- 不要修改以上代码 ----
 
-    std::vector<const char *> answers[]{
+    std::vector<const char *> answers[] {
         {"fd"},
-        // TODO: 分析 problems[1] 中资源的生命周期，将记录填入 `std::vector`
-        {"", "", "", "", "", "", "", ""},
-        {"", "", "", "", "", "", "", ""},
+        {"f", "f", "r", "d", "f"},
+        {"r", "d", "r", "d", "r", "d"}
     };
 
     // ---- 不要修改以下代码 ----
