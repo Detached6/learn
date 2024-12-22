@@ -12,7 +12,7 @@ class DynFibonacci {
 public:
     // TODO: 实现动态设置容量的构造器
     DynFibonacci(int capacity): cache(new size_t[capacity]), cached() {
-        cache[0] = 0, cache[1] = 1, cached = 1;
+        this->cache[0] = 0, this->cache[1] = 1, this->cached = 1;
     }
 
     // TODO: 实现析构器，释放缓存空间

@@ -2,7 +2,8 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include <cstring>  // 添加此行来引入 std::strcmp
+#include <cstring>
+#include <cassert>
 
 // READ: `std::unique_ptr` <https://zh.cppreference.com/w/cpp/memory/unique_ptr>
 
@@ -44,24 +45,27 @@ Unique forward(Unique ptr) {
 int main(int argc, char **argv) {
     std::vector<std::string> problems[3];
 
-    // 处理问题 1
+    // 处理问题1
     drop(forward(reset(nullptr)));
+    std::cout << "Before assignment (problem 1), RECORDS size: " << RECORDS.size() << std::endl;  // 调试输出，查看此时RECORDS元素个数
     problems[0] = RECORDS;
-    RECORDS.clear();  // 清空 RECORDS，以便下一步
+    RECORDS.clear();  // 清空RECORDS，以便下一步
 
-    // 处理问题 2
+    // 处理问题2
     forward(drop(reset(forward(forward(reset(nullptr))))));
+    std::cout << "Before assignment (problem 2), RECORDS size: " << RECORDS.size() << std::endl;  // 调试输出
     problems[1] = RECORDS;
-    RECORDS.clear();  // 清空 RECORDS，以便下一步
+    RECORDS.clear();  // 清空RECORDS，以便下一步
 
-    // 处理问题 3
+    // 处理问题3
     drop(drop(reset(drop(reset(reset(nullptr))))));
+    std::cout << "Before assignment (problem 3), RECORDS size: " << RECORDS.size() << std::endl;  // 调试输出
     problems[2] = RECORDS;
-    RECORDS.clear();  // 清空 RECORDS，以便下一步
+    RECORDS.clear();  // 清空RECORDS，以便下一步
 
     // ---- 不要修改以上代码 ----
 
-    std::vector<const char *> answers[] {
+    std::vector<const char *> answers[] = {
         {"fd"},
         {"f", "f", "r", "d", "f"},
         {"r", "d", "r", "d", "r", "d"}
@@ -69,10 +73,10 @@ int main(int argc, char **argv) {
 
     // ---- 不要修改以下代码 ----
 
-    for (auto i = 0; i < 3; ++i) {
-        ASSERT(problems[i].size() == answers[i].size(), "wrong size");
-        for (auto j = 0; j < problems[i].size(); ++j) {
-            ASSERT(std::strcmp(problems[i][j].c_str(), answers[i][j]) == 0, "wrong location");
+    for (int i = 0; i < 3; ++i) {
+        assert(problems[i].size() == answers[i].size() && "wrong size");
+        for (int j = 0; j < problems[i].size(); ++j) {
+            assert(std::strcmp(problems[i][j].c_str(), answers[i][j]) == 0 && "wrong location");
         }
     }
 
